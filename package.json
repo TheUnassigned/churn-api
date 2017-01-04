@@ -1,0 +1,46 @@
+{
+  "name": "churn-api",
+  "version": "1.0.0",
+  "description": "Churn TV API",
+  "main": "main.js",
+  "dependencies": {
+    "express": "^4.14.0",
+    "express-graphql": "^0.6.1",
+    "graphql": "^0.8.2",
+    "mongoose": "^4.7.6",
+    "standard": "^8.6.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-preset-latest": "^6.16.0",
+    "webpack": "^1.14.0",
+    "webpack-node-externals": "^1.5.4"
+  },
+  "scripts": {
+    "build:express": "webpack --config webpack.config.express.babel.js",
+    "build:serverless": "webpack --config webpack.config.serverless.babel.js",
+    "local": "node ./express/build.js",
+    "deploy:all": "cd serverless && serverless deploy -v",
+    "deploy:function": "cd serverless && serverless deploy -f api",
+    "logs": "cd serverless && serverless logs -f api",
+    "test": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheUnassigned/Churn-API.git"
+  },
+  "keywords": [
+    "churn",
+    "tv",
+    "api",
+    "video",
+    "channel"
+  ],
+  "author": "Unassigned",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/TheUnassigned/Churn-API/issues"
+  },
+  "homepage": "https://github.com/TheUnassigned/Churn-API#readme"
+}
