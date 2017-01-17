@@ -1,27 +1,21 @@
-{
-  "service": "churn-api",
-  "provider": {
-    "name": "aws",
-    "runtime": "nodejs4.3",
-    "profile": "churnapi"
-  },
-  "functions": {
-    "api": {
-      "handler": "handler.api",
-      "events": [
-        {
-          "http": {
-            "path": "graphql",
-            "method": "get"
-          }
-        },
-        {
-          "http": {
-            "path": "graphql",
-            "method": "post"
-          }
-        }
-      ]
-    }
-  }
-}
+
+service: churn-api
+provider:
+  name: aws
+  runtime: nodejs4.3
+  profile: churnapi
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: arn:aws:dynamodb:us-east-1:*:*
+functions:
+  api:
+    handler: handler.api
+    events:
+      - http:
+          path: graphql
+          method: get
+      - http:
+          path: graphql
+          method: post

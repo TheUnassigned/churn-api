@@ -1,7 +1,10 @@
 
+import nodeExternals from 'webpack-node-externals'
+
 export default {
   target: 'node',
   entry: './serverless/api',
+  context: __dirname,
   output: {
     libraryTarget: 'commonjs',
     path: './serverless',
@@ -19,5 +22,8 @@ export default {
         loader: 'babel'
       }
     ]
-  }
+  },
+  externals: [nodeExternals({
+    whitelist: name => name !== 'aws-sdk'
+  })]
 }

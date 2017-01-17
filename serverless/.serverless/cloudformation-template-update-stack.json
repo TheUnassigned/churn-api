@@ -71,6 +71,13 @@
                 "logs:PutLogEvents"
               ],
               "Resource": "arn:aws:logs:us-east-1:*:*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:*"
+              ],
+              "Resource": "arn:aws:dynamodb:us-east-1:*:*"
             }
           ]
         },
@@ -88,7 +95,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/churn-api/dev/1483534459047-2017-01-04T12:54:19.047Z/churn-api.zip"
+          "S3Key": "serverless/churn-api/dev/1483670698951-2017-01-06T02:44:58.951Z/churn-api.zip"
         },
         "FunctionName": "churn-api-dev-api",
         "Handler": "handler.api",
@@ -107,14 +114,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "ApiLambdaVersionMyBPrrtlWK2z6EzOWHAbmB0HqHvuvMlYhPfaVVxg": {
+    "ApiLambdaVersionrBzzflna3SToydGGWv6EnaQkRskWUDO6IrQcGNBaM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "/MyBPrrtlWK2z+6EzOWHAbmB0Hq+HvuvMlYhPfaVVxg="
+        "CodeSha256": "rB+zzflna3SToydGGWv6EnaQkRskWUDO6I+rQcGNBaM="
       }
     },
     "ApiGatewayRestApi": {
@@ -214,7 +221,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1483534459057": {
+    "ApiGatewayDeployment1483670698962": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -279,7 +286,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersionMyBPrrtlWK2z6EzOWHAbmB0HqHvuvMlYhPfaVVxg"
+        "Ref": "ApiLambdaVersionrBzzflna3SToydGGWv6EnaQkRskWUDO6IrQcGNBaM"
       }
     },
     "ServiceEndpoint": {

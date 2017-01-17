@@ -4,15 +4,19 @@
   "description": "Churn TV API",
   "main": "main.js",
   "dependencies": {
+    "aws-sdk": "^2.7.21",
     "express": "^4.14.0",
     "express-graphql": "^0.6.1",
+    "express-jwt": "^5.1.0",
     "graphql": "^0.8.2",
     "mongoose": "^4.7.6",
-    "standard": "^8.6.0"
+    "standard": "^8.6.0",
+    "validator": "^6.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-latest": "^6.16.0",
     "webpack": "^1.14.0",
     "webpack-node-externals": "^1.5.4"
@@ -20,10 +24,10 @@
   "scripts": {
     "build:express": "webpack --config webpack.config.express.babel.js",
     "build:serverless": "webpack --config webpack.config.serverless.babel.js",
-    "local": "node ./express/build.js",
-    "deploy:all": "cd serverless && serverless deploy -v",
-    "deploy:function": "cd serverless && serverless deploy -f api",
-    "logs": "cd serverless && serverless logs -f api",
+    "local": "npm run build:express && node ./express/build.js",
+    "lambda:all": "npm run build:serverless && cd serverless && serverless deploy -v",
+    "lambda:function": "npm run build:serverless && cd serverless && serverless deploy -f api",
+    "lambda:logs": "cd serverless && serverless logs -f api",
     "test": "standard"
   },
   "repository": {

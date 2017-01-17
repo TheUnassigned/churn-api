@@ -1,5 +1,7 @@
+.DS_Store
 node_modules
 express/build.js
 serverless/handler.js
+serverless/.serverless
 
 personal_notes.txt

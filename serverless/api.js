@@ -1,13 +1,14 @@
 
 import { graphql } from 'graphql'
-import schema from '../graphql/schema'
+import DB from 'DB'
+import schema from 'graphql/schema'
 
 export const api = (event, context, callback) => {
-  
-  graphql(schema, '{ hello }').then(result => {
+
+	graphql(schema, '{ hello }', { DB }).then(result => {
     const response = {
       statusCode: 200,
-      body: JSON.stringify(result)
+      body: JSON.stringify(event)
     }
     callback(null, response)
   })
