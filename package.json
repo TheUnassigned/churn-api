@@ -11,6 +11,7 @@
     "graphql": "^0.8.2",
     "mongoose": "^4.7.6",
     "standard": "^8.6.0",
+    "twobyfour": "0.0.6",
     "validator": "^6.2.1"
   },
   "devDependencies": {
@@ -18,6 +19,8 @@
     "babel-loader": "^6.2.10",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-latest": "^6.16.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
     "webpack": "^1.14.0",
     "webpack-node-externals": "^1.5.4"
   },
@@ -28,7 +31,8 @@
     "lambda:all": "npm run build:serverless && cd serverless && serverless deploy -v",
     "lambda:function": "npm run build:serverless && cd serverless && serverless deploy -f api",
     "lambda:logs": "cd serverless && serverless logs -f api",
-    "test": "standard"
+    "test:standard": "standard",
+    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register --reporter spec"
   },
   "repository": {
     "type": "git",

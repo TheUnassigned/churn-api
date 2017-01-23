@@ -1,28 +1,16 @@
 
-import { channel } from '../types'
+import { channel, channelInput } from '../types'
 
 export default {
   type: channel,
+  description: 'Find a certain channel by slug id',
   args: {
-    slug: channel.fields.slug,
+    slug: channelInput.fields.slug,
   },
-  permissions: [
-    /*Permissions.channelOwner,
-    (args, { token }) => {
-      if(args.slug !== token.channel){
-        return Promise.reject(new Error('You must be channel owner to run this query'))
-      }
-    },
-    (args, { DB }) => {
-      return DB.getResource('someresource', args.something)
-        .then(item => {
-          if(item.name !== 'person'){
-            return Promise.reject(new Error('Some thing inside some resource doesn\'t check out'))
-          }
-        })
-    }*/
-  ],
-  resolve (root, params, context) {
-    return context.DB.getResource(channel.TABLE_NAME, params, context)
+  resolve (root, params, context, info) {
+    return context.DB.getResource({
+      TableName: channel.TABLE_NAME,
+      Key: params
+    }, context)
   }
 }

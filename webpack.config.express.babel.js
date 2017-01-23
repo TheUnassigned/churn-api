@@ -23,5 +23,7 @@ export default {
     ]
   },
   target: 'node',
-  externals: [nodeExternals()]
+  externals: [nodeExternals({
+    whitelist: ['twobyfour', 'twobyfour/src/db/dynamodb']
+  })]
 }

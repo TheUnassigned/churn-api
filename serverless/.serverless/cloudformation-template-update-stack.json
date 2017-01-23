@@ -95,7 +95,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/churn-api/dev/1483670698951-2017-01-06T02:44:58.951Z/churn-api.zip"
+          "S3Key": "serverless/churn-api/dev/1484726744736-2017-01-18T08:05:44.736Z/churn-api.zip"
         },
         "FunctionName": "churn-api-dev-api",
         "Handler": "handler.api",
@@ -114,14 +114,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "ApiLambdaVersionrBzzflna3SToydGGWv6EnaQkRskWUDO6IrQcGNBaM": {
+    "ApiLambdaVersionYlIVHLu7sXSZXlL18CTaXWKenHy2IO3gn8YutoRoY": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "rB+zzflna3SToydGGWv6EnaQkRskWUDO6I+rQcGNBaM="
+        "CodeSha256": "Yl+IVHLu+7sXSZXlL18CTaXWKenHy2IO3gn8YutoRoY="
       }
     },
     "ApiGatewayRestApi": {
@@ -221,7 +221,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1483670698962": {
+    "ApiGatewayDeployment1484726744749": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -286,7 +286,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersionrBzzflna3SToydGGWv6EnaQkRskWUDO6IrQcGNBaM"
+        "Ref": "ApiLambdaVersionYlIVHLu7sXSZXlL18CTaXWKenHy2IO3gn8YutoRoY"
       }
     },
     "ServiceEndpoint": {

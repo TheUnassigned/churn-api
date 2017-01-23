@@ -3,20 +3,20 @@ import express from 'express'
 import jwt from 'express-jwt'
 import graphqlHTTP from 'express-graphql'
 import AWS from 'aws-sdk'
-import twobyfour from '../twobyfour'
-import DB from '../twobyfour/db/dynamodb'
+import twobyfour from 'twobyfour'
+import DB from 'twobyfour/src/db/dynamodb'
 import model from '../model'
 
 // setup aws
 AWS.config.update({
-  accessKeyId: 'AKIAIAWM2JKH5NM2N7DQ',
-  secretAccessKey: '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',
+  accessKeyId: '',
+  secretAccessKey: '',
   region: 'us-east-1'
 });
 // init the database client
 DB.setDoc(new AWS.DynamoDB.DocumentClient({ region: 'us-east-1' }))
 
-// build the grambda schema
+// build the twobyfour. schema
 const schema = twobyfour(model)
 
 const app = express()

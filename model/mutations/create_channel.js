@@ -1,14 +1,24 @@
-
-import { channel, channelInput } from '../types'
+import { channel as channelType, channelInput } from '../types'
+import { isAdmin } from '../permissions'
 
 export default {
+  name: 'createChannel',
   description: 'create a new channel',
-  type: channel,
+  type: channelType,
   args: {
-    channel: channelInput
+    channel: {
+      type: channelInput,
+      description: 'The input channel object details'
+    }
   },
-  permissions: [],
-  resolve (root, params, context) {
-    return context.DB.putResource(channel.TABLE_NAME, params, context)
+  permissions: isAdmin,
+  resolve (root, { channel }, { DB }) {
+    return DB.putResource({
+      TableName: channelType.TABLE_NAME,
+      Item: channel,
+      Expected: {
+        slug: { Exists: false }
+      }
+    }).then(() => channel)
   }
 }

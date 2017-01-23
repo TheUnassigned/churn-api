@@ -3,7 +3,7 @@ import updateChannel from './update_channel'
 import addVideo from './add_video'
 
 export default {
-  //createChannel,
-  //updateChannel,
-  //addVideo
+  createChannel,
+  updateChannel,
+  addVideo
 }

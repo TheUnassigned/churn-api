@@ -1,22 +1,22 @@
-import { Types } from '../../twobyfour'
+import { Types } from 'twobyfour'
 
 export default {
   name: 'recentVideo',
   fields: {
     channel_position: {
-      type: Types.Int,
+      type: Types._int,
       description: 'The position of the recent video in the channel. Also the lookup id.'
     },
     youtube_id: {
-      type: Types.String,
+      type: Types._string,
       description: 'The youtube if of the recent video'
     },
     title: {
-      type: Types.String,
+      type: Types._string,
       description: 'The title of the recent video'
     },
     duration: {
-      type: Types.Int,
+      type: Types._int,
       description: 'The duration of the recent video'
     }
   },

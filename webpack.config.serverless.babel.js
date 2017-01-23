@@ -12,6 +12,9 @@ export default {
   },
   // this allows us to import these filetypes without writing the extension
   resolve: {
+    root: [
+      __dirname
+    ],
     extensions: ['', '.js', '.json']
   },
   module: {
