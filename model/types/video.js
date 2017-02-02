@@ -1,7 +1,8 @@
 import { Types } from 'twobyfour'
 
-export default {
-  TABLE_NAME: 'churn-videos',
+const table = 'churn-videos'
+
+const readSchema = {
   name: 'video',
   fields: {
     url: {
@@ -33,4 +34,11 @@ export default {
       description: 'Duration of the video in seconds',
     }
   }
+}
+
+export {
+  table,
+  keys,
+  readSchema,
+  twobyfour(GraphQLObjectType, readSchema)
 }

@@ -1,6 +1,7 @@
-import { channel as channelType, channelInput } from '../types'
-import expression from 'dynamodb'
-import { isAdmin } from '../permissions'
+import channelType from '/model/types/channel'
+import channelInputType from '/model/types/channel_input'
+import expression from '/dynamodb'
+//import { isAdmin } from '../permissions'
 
 export default {
   name: 'updateChannel',
@@ -8,11 +9,11 @@ export default {
   type: channelType,
   args: {
     channel: {
-      type: channelInput,
+      type: channelInputType,
       description: 'The input channel object details'
     }
   },
-  permissions: isAdmin,
+  permissions: isChannelAdmin,
   resolve (root, { channel }, { DB }) {
     return DB.updateResource({
       TableName: channelType.TABLE_NAME,
@@ -20,7 +21,7 @@ export default {
       Expected: {
         slug: { Exists: true }
       },
-      ...expression().SET(args.channel).build()
-    }).then(() => params.channel)
+      SET: channel
+    }).then(() => channel)
   }
 }

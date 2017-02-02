@@ -1,5 +1,6 @@
-import { channel as channelType, channelInput } from '../types'
-import { isAdmin } from '../permissions'
+import channelType from '/model/types/channel'
+import channelInputType from '/model/types/channel_input'
+//import { isAdmin } from '../permissions'
 
 export default {
   name: 'createChannel',
@@ -7,7 +8,7 @@ export default {
   type: channelType,
   args: {
     channel: {
-      type: channelInput,
+      type: channelInputType,
       description: 'The input channel object details'
     }
   },

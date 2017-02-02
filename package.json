@@ -3,27 +3,6 @@
   "version": "1.0.0",
   "description": "Churn TV API",
   "main": "main.js",
-  "dependencies": {
-    "aws-sdk": "^2.7.21",
-    "express": "^4.14.0",
-    "express-graphql": "^0.6.1",
-    "express-jwt": "^5.1.0",
-    "graphql": "^0.8.2",
-    "mongoose": "^4.7.6",
-    "standard": "^8.6.0",
-    "twobyfour": "0.0.6",
-    "validator": "^6.2.1"
-  },
-  "devDependencies": {
-    "babel-core": "^6.21.0",
-    "babel-loader": "^6.2.10",
-    "babel-plugin-transform-object-rest-spread": "^6.20.2",
-    "babel-preset-latest": "^6.16.0",
-    "chai": "^3.5.0",
-    "mocha": "^3.2.0",
-    "webpack": "^1.14.0",
-    "webpack-node-externals": "^1.5.4"
-  },
   "scripts": {
     "build:express": "webpack --config webpack.config.express.babel.js",
     "build:serverless": "webpack --config webpack.config.serverless.babel.js",
@@ -32,7 +11,34 @@
     "lambda:function": "npm run build:serverless && cd serverless && serverless deploy -f api",
     "lambda:logs": "cd serverless && serverless logs -f api",
     "test:standard": "standard",
-    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register --reporter spec"
+    "test": " NODE_PATH=$NODE_PATH:$PWD nyc mocha --recursive --compilers js:babel-core/register --reporter spec"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.7.21",
+    "body-parser": "^1.16.0",
+    "express": "^4.14.0",
+    "express-jwt": "^5.1.0",
+    "graphql": "^0.8.2",
+    "graphql-server-express": "^0.5.2",
+    "mongoose": "^4.7.6",
+    "standard": "^8.6.0",
+    "twobyfour": "0.0.6",
+    "validator": "^6.2.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
+    "babel-preset-latest": "^6.16.0",
+    "babel-root-slash-import": "^1.1.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "graphql-docs": "^0.2.0",
+    "mocha": "^3.2.0",
+    "nyc": "^10.1.2",
+    "webpack": "^1.14.0",
+    "webpack-node-externals": "^1.5.4"
   },
   "repository": {
     "type": "git",

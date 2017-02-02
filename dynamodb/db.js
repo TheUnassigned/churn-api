@@ -1,6 +1,7 @@
 /**
  * Dynamodb interface implementation
  */
+import expressionBuilder from './expression_builder'
 
 /**
  * The document client used to interface with the database
@@ -43,7 +44,7 @@ const putResource = (params) => {
  * The params given match graphq's param object layout and context
  */
 const updateResource = (table, params, context) => {
-  return docClient.update(params).promise()
+  return docClient.update(expressionBuilder(params)).promise()
 }
 
 /**

@@ -4,4 +4,4 @@ express/build.js
 serverless/handler.js
 serverless/.serverless
 
-personal_notes.txt
+.nyc_output

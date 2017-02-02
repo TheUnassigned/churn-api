@@ -2,23 +2,26 @@
  * Module for making dynamodb expressions easier to build
  */
 
-const expression = (state) => ({
-  SET(items) {
-    let set = 'SET '
-    Object.keys(items).forEach(key => {
-      set += `key=:${key}`
-      state.ExpressionAttributeValues[key] = items[key]
-    })
-    state[name] = Object.keys(items).reduce((obj, item) => {
+// character used to prepend the attribute variables
+const prechar = ':'
 
-    }, {})
+const expression = ({ expressions, values }) => ({
+  SET(items) {
+    expressions.push('SET ' + Object.keys(items).map(key => {
+      const attrKey = prechar + key
+      values[attrKey] = items[key]
+      return `key=${attrKey}`
+    }).join(','))
   },
   build() {
-    return state
+    return {
+      UpdateExpression: state.expressions.join(','),
+      ExpressionAttributeValues: values
+    }
   }
 })
 
 export default () => expression({
-  UpdateExpression: '',
-  ExpressionAttributeValues: {}
+  expressions: [],
+  values: {}
 })
