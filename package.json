@@ -21,6 +21,7 @@
     "graphql": "^0.8.2",
     "graphql-server-express": "^0.5.2",
     "mongoose": "^4.7.6",
+    "node-fetch": "^1.6.3",
     "standard": "^8.6.0",
     "twobyfour": "0.0.6",
     "validator": "^6.2.1"

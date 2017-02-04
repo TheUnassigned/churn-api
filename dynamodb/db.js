@@ -43,8 +43,15 @@ const putResource = (params) => {
  * Update a resource in the DB
  * The params given match graphq's param object layout and context
  */
-const updateResource = (table, params, context) => {
+const updateResource = (params, context) => {
   return docClient.update(expressionBuilder(params)).promise()
+}
+
+/**
+ * Query a list from the DB
+ */
+const query = (params) => {
+  return docClient.query(params).promise()
 }
 
 /**

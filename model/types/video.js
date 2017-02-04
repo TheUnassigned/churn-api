@@ -1,4 +1,8 @@
-import { Types } from 'twobyfour'
+import {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLInt
+} from 'graphql'
 
 const table = 'churn-videos'
 
@@ -6,31 +10,31 @@ const readSchema = {
   name: 'video',
   fields: {
     url: {
-      type: Types._string,
+      type: GraphQLString,
       description: 'The URL by which the video was added',
     },
     channel_id: {
-      type: Types._string,
+      type: GraphQLString,
       description: 'The slug id of the owning channel',
     },
     channel_position: {
-      type: Types._int,
+      type: GraphQLInt,
       description: 'the order of the video in the channel (reverse)',
     },
     youtube_id: {
-      type: Types._string,
+      type: GraphQLString,
       description: 'The Youtube video id',
     },
     time_added: {
-      type: Types._string,
+      type: GraphQLString,
       description: 'When the video was added to the channel',
     },
     title: {
-      type: Types._string,
+      type: GraphQLString,
       description: 'The title of the video',
     },
     duration: {
-      type: Types._int,
+      type: GraphQLInt
       description: 'Duration of the video in seconds',
     }
   }

@@ -1,27 +1,22 @@
-var Request = require('request'),
-	Env = require('../config/env');
+import fetch from 'node-fetch'
 
-function requestJSON(url, cb){
-	Request(url, function(err, response, body){
-		if(err){ return cb(err); }
-
-		if(response.statusCode == 200){
-			var data = JSON.parse(body);
-			return cb(null, data);
-		}else{
-			return cb(new Error('Invalid request response code: ' + respone.statusCode + ', for: ' + url));
-		}
-	});
-}
-
+/**
+ * Given a youtube url, attempt to extract the youtube id
+ */
 const extractYoutubeId = url => {
+	const reg = /(?:http|https|)(?::\/\/|)(?:www.|)(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[a-z0-9;:@?&%=+\/\$_.-]*/
 
+	return url.match(reg) ?
+		Promise.resolve(match[1]) :
+		Promise.reject(new Error('Churn currently only supports valid youtube video additions'))
 }
 
+/**
+ * Given a youtube id, retrieve the relevant video youtube api data
+ */
 const fetchYoutubeData = id => {
-  const url = 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&part=snippet,contentDetails&key=' + Env.youtube.serverKey;
-  
-
+	const url = `https://www.googleapis.com/youtube/v3/videos?id=${id}&part=snippet,contentDetails&key=${Env.youtube.serverKey}`
+	return fetch(url).then(res => res.json())
 }
 
 /**

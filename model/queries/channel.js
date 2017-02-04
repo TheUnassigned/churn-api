@@ -8,10 +8,10 @@ export default {
   args: {
     slug: channelInputSchema.fields.slug
   },
-  resolve (root, params, context, info) {
+  resolve (root, args, context, info) {
     return context.DB.getResource({
       TableName: CHANNEL_TABLE,
-      Key: params
+      Key: args
     }, context)
   }
 }
