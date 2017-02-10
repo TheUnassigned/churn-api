@@ -1,4 +1,4 @@
-import twobyfour from './temp_twobyfour'
+import twobyfour, { or } from 'twobyfour'
 
 // override of default pre/post keys for twobyfour
 export default (type, schema) => twobyfour(type, schema, {
@@ -6,3 +6,7 @@ export default (type, schema) => twobyfour(type, schema, {
   pre: ['permissions'],
   post: ['analytics']
 })
+
+export {
+  or
+}

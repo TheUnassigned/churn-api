@@ -3,6 +3,8 @@ import {
   GraphQLString,
   GraphQLInt
 } from 'graphql'
+import { GraphQLDateTime } from '/graphql/custom_types'
+import twobyfour from '/config/twobyfour'
 
 const table = 'churn-videos'
 
@@ -26,7 +28,7 @@ const readSchema = {
       description: 'The Youtube video id',
     },
     time_added: {
-      type: GraphQLString,
+      type: GraphQLDateTime,
       description: 'When the video was added to the channel',
     },
     title: {
@@ -34,15 +36,14 @@ const readSchema = {
       description: 'The title of the video',
     },
     duration: {
-      type: GraphQLInt
+      type: GraphQLInt,
       description: 'Duration of the video in seconds',
     }
   }
 }
 
-export {
+export default {
   table,
-  keys,
   readSchema,
-  twobyfour(GraphQLObjectType, readSchema)
+  read: twobyfour(GraphQLObjectType, readSchema)
 }

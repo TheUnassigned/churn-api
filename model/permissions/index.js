@@ -6,9 +6,10 @@ const isAdmin = (root, args, { viewer }, info) => {
 }
 
 const isChannelAdmin = (root, args, context, info) => {
-  
+
 }
 
 export {
-  isAdmin
+  isAdmin,
+  isChannelAdmin
 }

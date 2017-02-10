@@ -47,7 +47,7 @@ const isAlphanumeric = locale => argTransform((key, val) => {
 /**
  * Check is string is a valid URL
  **/
-const isURL =  options => argTransform((key, val) => {
+const isURL = options => argTransform((key, val) => {
   if(!_isURL(val, options)){
     return errReject(key, str, 'String must be a valid URL.')
   }

@@ -1,7 +1,8 @@
 import twobyfour, { or } from '/config/twobyfour'
 import { GraphQLNonNull, GraphQLString } from 'graphql'
-import videoType, { VIDEO_TABLE } from '/model/types/video'
+import videoType from '/model/types/video'
 import { isLength, isURL, isSlug } from '/model/validators'
+import { isAdmin, isChannelAdmin } from '/model/permissions'
 
 // add a video object to the channel collection
 // This adds to recent videos and returns the video position
@@ -29,7 +30,7 @@ const addVideoToChannel = (slug, video) => DB.updateResource({
 export default {
   name: 'addVideo',
   description: 'Add a video to a particular channel',
-  type: videoType,
+  type: videoType.read,
   args: {
     channel_slug: {
       type: new GraphQLNonNull(GraphQLString),
@@ -53,7 +54,7 @@ export default {
       addVideoToChannel(channel_slug, video).then(pos => {
         video.pos = pos
         DB.putResource({
-          TableName: VIDEO_TABLE,
+          TableName: videoType.table,
           Item: video
         })
         // finally we want to return the video object

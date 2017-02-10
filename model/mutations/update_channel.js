@@ -1,22 +1,20 @@
 import channelType from '/model/types/channel'
-import channelInputType from '/model/types/channel_input'
-import expression from '/dynamodb'
-//import { isAdmin } from '../permissions'
+import { isChannelAdmin } from '/model/permissions'
 
 export default {
   name: 'updateChannel',
   description: 'update an existing channel',
-  type: channelType,
+  type: channelType.read,
   args: {
     channel: {
-      type: channelInputType,
+      type: channelType.input,
       description: 'The input channel object details'
     }
   },
   permissions: isChannelAdmin,
   resolve (root, { channel }, { DB }) {
     return DB.updateResource({
-      TableName: channelType.TABLE_NAME,
+      TableName: channelType.table,
       Key: { slug: channel.slug },
       Expected: {
         slug: { Exists: true }

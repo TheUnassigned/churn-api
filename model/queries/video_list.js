@@ -7,18 +7,19 @@ import {
   GraphQLID
 } from 'graphql'
 import video from '/model/types/video'
+import cursorManager from '/model/types/cursor_manager'
 
 export default {
   name: 'videoList',
   description: 'query for retrieving paginated lists of videos for a channel',
-  type: cursorManager,
+  type: cursorManager.read,
   args: {
     first: {
       type: new GraphQLNonNull(GraphQLInt),
       description: 'the maximum number of list items that should be returned'
     },
     cursor: {
-      type: GraphQLID,
+      type: GraphQLInt,
       description: 'the cursor id for where the current page should start from'
     }
   },

@@ -2,7 +2,7 @@ import {
   GraphQLObjectType,
   GraphQLID
 } from 'graphql'
-import video from './video'
+import videoType from './video'
 import twobyfour from '/config/twobyfour'
 
 const readSchema = {
@@ -15,14 +15,13 @@ const readSchema = {
       resolve: video => video.youtube_id
     },
     video: {
-      type: user.read,
+      type: videoType.read,
       description: 'the member node'
     }
   }
 }
 
 export default {
-  collection,
   readSchema,
   read: twobyfour(GraphQLObjectType, readSchema)
 }

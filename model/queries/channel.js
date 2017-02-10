@@ -1,17 +1,15 @@
-import channelType, { CHANNEL_TABLE } from '/model/types/channel'
-import { channelInputSchema } from '/model/types/channel_input'
-import { or } from '/config/temp_twobyfour'
+import channelType from '/model/types/channel'
 
 export default {
-  type: channelType,
+  type: channelType.read,
   description: 'Find a certain channel by slug id',
   args: {
-    slug: channelInputSchema.fields.slug
+    slug: channelType.keys.slug
   },
-  resolve (root, args, context, info) {
-    return context.DB.getResource({
-      TableName: CHANNEL_TABLE,
+  resolve (root, args, { DB }, info) {
+    return DB.getResource({
+      TableName: channelType.table,
       Key: args
-    }, context)
+    })
   }
 }

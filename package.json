@@ -4,8 +4,9 @@
   "description": "Churn TV API",
   "main": "main.js",
   "scripts": {
-    "build:express": "webpack --config webpack.config.express.babel.js",
-    "build:serverless": "webpack --config webpack.config.serverless.babel.js",
+    "build:express": "webpack --config ./config/webpack.config.express.babel.js",
+    "build:serverless": "webpack --config ./config/webpack.config.serverless.babel.js",
+    "express": "./node_modules/.bin/babel-node ./express/server.js",
     "local": "npm run build:express && node ./express/build.js",
     "lambda:all": "npm run build:serverless && cd serverless && serverless deploy -v",
     "lambda:function": "npm run build:serverless && cd serverless && serverless deploy -f api",
@@ -23,7 +24,7 @@
     "mongoose": "^4.7.6",
     "node-fetch": "^1.6.3",
     "standard": "^8.6.0",
-    "twobyfour": "0.0.6",
+    "twobyfour": "0.0.8",
     "validator": "^6.2.1"
   },
   "devDependencies": {
