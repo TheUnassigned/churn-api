@@ -38,6 +38,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "graphql-docs": "^0.2.0",
+    "local-dynamo": "^0.4.1",
     "mocha": "^3.2.0",
     "nyc": "^10.1.2",
     "webpack": "^1.14.0",
