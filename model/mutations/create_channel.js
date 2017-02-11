@@ -13,13 +13,24 @@ export default {
     }
   },
   permissions: isAdmin,
-  resolve (root, { channel }, { DB }) {
+  resolve (root, { slug, channel }, { DB }) {
+    const newChannel = {
+      slug,
+      ...channel
+    }
+
     return DB.putResource({
       TableName: channelType.table,
-      Item: channel,
+      Item: newChannel,
       Expected: {
         slug: { Exists: false }
       }
-    }).then(() => channel)
+    }).then(() => newChannel)
+      .catch(e => {
+        if(e.code === 'ConditionalCheckFailedException'){
+          e.message = `Channel with slug (${slug}) already exists`
+        }
+        throw e
+      })
   }
 }

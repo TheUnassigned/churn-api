@@ -6,20 +6,21 @@ import jwt from 'express-jwt'
 import AWS from 'aws-sdk'
 import DB from '/dynamodb'
 import schema from '/model'
+import { config } from '/config/environment'
 
 // setup aws
 AWS.config.update({
-  accessKeyId: '',
-  secretAccessKey: '',
-  region: 'us-east-1'
+  accessKeyId: config.AWS_ID,
+  secretAccessKey: config.AWS_KEY,
+  region: config.AWS_REGION
 });
 // init the database client
-DB.setDoc(new AWS.DynamoDB.DocumentClient({ region: 'us-east-1' }))
+DB.setDoc(new AWS.DynamoDB.DocumentClient({ region: config.AWS_REGION }))
 
 const app = express()
 
 app.use(jwt({
-  secret: 'raaaaasd-secret',
+  secret: config.JWT_SECRET,
   credentialsRequired: false
 }))
 
@@ -39,6 +40,7 @@ app.use('/graphql', bodyParser.json(), graphqlExpress(req => ({
 // graphiql page
 app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql',
+  passHeader: config.GRAPHIQL_HEADER
 }));
 
 app.listen(3000, () => console.log('Churn API listening on port 3000'));
