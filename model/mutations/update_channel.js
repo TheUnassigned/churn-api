@@ -18,11 +18,9 @@ export default {
     return DB.updateResource({
       TableName: channelType.table,
       Key: { slug },
-      Expected: {
-        slug: { Exists: true }
-      },
-      SET: channel
-    }).then(() => ({ slug, ...channel }))
+      SET: channel,
+      ReturnValues: 'ALL_NEW'
+    }).then(result => result.Attributes)
       .catch(e => {
         if(e.code === 'ConditionalCheckFailedException'){
           e.message = `Channel with slug (${slug}) does not exist`

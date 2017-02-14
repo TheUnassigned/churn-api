@@ -44,7 +44,8 @@ const putResource = (params) => {
  * The params given match graphq's param object layout and context
  */
 const updateResource = (params, context) => {
-  return docClient.update(expressionBuilder(params)).promise()
+  const expression = expressionBuilder(params)
+  return docClient.update(expression).promise()
 }
 
 /**
@@ -66,5 +67,6 @@ export default {
   setDoc,
   getResource,
   putResource,
+  updateResource,
   deleteResource
 }

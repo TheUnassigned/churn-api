@@ -13,9 +13,7 @@ chai.should()
 const expect = chai.expect
 
 // wait until the mocks have initialised before running any tests
-beforeEach(() => {
-  return mock
-})
+beforeEach(() => mock)
 
 // init the database client
 DB.setDoc(new AWS.DynamoDB.DocumentClient({ region: config.AWS_REGION }))

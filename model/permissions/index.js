@@ -8,9 +8,14 @@ const isAdmin = (root, args, { viewer }, info) => {
   }
 }
 
-const isChannelAdmin = (root, args, context, info) => {
+/*
+const isChannelAdmin = (root, args, { viewer }, info) => {
+  if(!viewer || !viewer[args.slug]){
+    return Promise.reject(new Error('Must have channel '))
+  }
+}*/
 
-}
+const isChannelAdmin = () => {}
 
 export {
   isAdmin,
