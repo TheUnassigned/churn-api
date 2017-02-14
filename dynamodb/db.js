@@ -7,7 +7,7 @@ import expressionBuilder from './expression_builder'
  * The document client used to interface with the database
  */
 let docClient
-const setDoc = doc => docClient = doc
+const setDoc = _docClient => docClient = _docClient
 
 /**
  * The cache used to store resources grabbed within a single call.

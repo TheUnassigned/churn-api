@@ -1,16 +1,15 @@
 import { graphql } from 'graphql'
 import AWS from 'aws-sdk'
-import twobyfour from 'twobyfour'
-import model from 'model'
+import schema from 'model'
 import { getJWT } from 'auth'
+import { config } from 'config/environment'
 
 const DB = new AWS.DynamoDB.DocumentClient({ region: 'us-east-1' })
-const schema = twobyfour(model)
 
 export const api = (event, context, callback) => {
 
   // attempt to get jwt
-  getJWT(event.authorizationToken, 'maaah secret').then(token => {
+  getJWT(event.authorizationToken, config.JWT_SECRET).then(token => {
 
     // TODO: handle actual input params rather than static demo
 
