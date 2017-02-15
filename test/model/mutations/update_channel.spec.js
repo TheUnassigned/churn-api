@@ -32,7 +32,7 @@ describe('Testing channel updating', () => {
       createChannel(slug: "updater", channel: {
         title: "test title"
         external_links: {
-          url: "http://www.thingo.com"
+          weburl: "http://www.thingo.com"
           facebook: "http://www.facebook.com/yoyoyo"
         }
         blurb: "This channel is a test channel"
@@ -41,7 +41,7 @@ describe('Testing channel updating', () => {
         slug
         title
         external_links {
-          url
+          weburl
           instagram
         }
       }
@@ -57,7 +57,7 @@ describe('Testing channel updating', () => {
         blurb: "This channel is a test channel"
         logo_url: "http://logo.com"
         external_links: {
-          url: "http://alt.com"
+          weburl: "http://alt.com"
           twitter: "http://www.twitter.com/test"
         }
       }){
@@ -65,7 +65,7 @@ describe('Testing channel updating', () => {
         title
         external_links {
           twitter
-          url
+          weburl
         }
       }
     }
@@ -79,7 +79,7 @@ describe('Testing channel updating', () => {
           slug: 'updater',
           title: 'updated title',
           external_links: {
-            url: 'http://alt.com',
+            weburl: 'http://alt.com',
             twitter: 'http://www.twitter.com/test'
           }
         })
@@ -89,20 +89,27 @@ describe('Testing channel updating', () => {
   it('should fail for non existent slug', () => {
     const nonExistent = `
       mutation {
-        updateChannel(slug: "doesnotexist", channel: {
+        updateChannel(slug: "shouldnotexist", channel: {
           title: "updated title"
+          blurb: "nope"
+          logo_url: "nah"
         }){
           slug
         }
       }
     `
 
-    return graphql(schema, updateMutation, {}, context)
-      .then(result => console.log(result)).should.be.rejected
+    return graphql(schema, nonExistent, {}, context)
+      .then(result => {
+        expect(result.errors).to.have.length.above(0)
+      })
   })
 
   it('should reject update without key', () => {
-    return graphql(schema, updateMutation, {}, {}).should.be.rejected
+    return graphql(schema, updateMutation, {}, {})
+      .then(result => {
+        expect(result.errors).to.have.length.above(0)
+      })
   })
 
   it('should update successfully with matching channel slug in payload', () => {
@@ -111,6 +118,8 @@ describe('Testing channel updating', () => {
       viewer: {
         updater: true
       }
-    }).then(result => console.log(result)).should.be.fulfilled
+    }).then(result => {
+      expect(result.error).to.be.undefined
+    })
   })
 })

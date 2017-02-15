@@ -13,11 +13,14 @@ export default {
       description: 'The updated channel object details'
     }
   },
-  permissions: or([isAdmin, isChannelAdmin]),
+  permissions: or([
+    isAdmin, isChannelAdmin(({ slug }) => slug)
+  ]),
   resolve (root, { slug, channel }, { DB }) {
     return DB.updateResource({
       TableName: channelType.table,
       Key: { slug },
+      ConditionExpression: 'attribute_exists(slug)',
       SET: channel,
       ReturnValues: 'ALL_NEW'
     }).then(result => result.Attributes)

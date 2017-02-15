@@ -45,6 +45,7 @@ const putResource = (params) => {
  */
 const updateResource = (params, context) => {
   const expression = expressionBuilder(params)
+  //console.log(expression)
   return docClient.update(expression).promise()
 }
 

@@ -32,7 +32,7 @@ describe('Testing channel creation', () => {
       createChannel(slug: "testslug", channel: {
         title: "test title"
         external_links: {
-          url: "http://www.thingo.com"
+          weburl: "http://www.thingo.com"
           facebook: "http://www.facebook.com/yoyoyo"
         }
         blurb: "This channel is a test channel"
@@ -41,7 +41,7 @@ describe('Testing channel creation', () => {
         slug
         title
         external_links {
-          url
+          weburl
           instagram
         }
       }
@@ -56,7 +56,7 @@ describe('Testing channel creation', () => {
           slug: 'testslug',
           title: 'test title',
           external_links: {
-            url: 'http://www.thingo.com',
+            weburl: 'http://www.thingo.com',
             instagram: null
           }
         })

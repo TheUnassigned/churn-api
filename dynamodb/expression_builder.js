@@ -6,7 +6,7 @@
 const prechar = ':'
 
 // param keys automatically brought across
-const paramKeys = ['TableName', 'Key', 'Expected', 'ReturnValues']
+const paramKeys = ['TableName', 'Key', 'ConditionExpression', 'ReturnValues']
 
 // gets a mapping of all object leaves and their values
 const getLeaves = (obj, output = [], prefix = '') => {

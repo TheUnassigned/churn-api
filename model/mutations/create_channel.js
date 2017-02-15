@@ -22,9 +22,7 @@ export default {
     return DB.putResource({
       TableName: channelType.table,
       Item: newChannel,
-      Expected: {
-        slug: { Exists: false }
-      }
+      ConditionExpression: 'attribute_not_exists(slug)'
     }).then(() => newChannel)
       .catch(e => {
         if(e.code === 'ConditionalCheckFailedException'){

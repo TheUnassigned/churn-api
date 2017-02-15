@@ -24,7 +24,7 @@
     "mongoose": "^4.7.6",
     "node-fetch": "^1.6.3",
     "standard": "^8.6.0",
-    "twobyfour": "0.0.8",
+    "twobyfour": "0.0.10",
     "validator": "^6.2.1"
   },
   "devDependencies": {

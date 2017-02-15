@@ -8,14 +8,12 @@ const isAdmin = (root, args, { viewer }, info) => {
   }
 }
 
-/*
-const isChannelAdmin = (root, args, { viewer }, info) => {
-  if(!viewer || !viewer[args.slug]){
-    return Promise.reject(new Error('Must have channel '))
+const isChannelAdmin = slugFunc => (root, args, { viewer }, info) => {
+  const slug = slugFunc(args)
+  if(!viewer || !viewer[slug]){
+    return Promise.reject(new Error('Must have channel admin access'))
   }
-}*/
-
-const isChannelAdmin = () => {}
+}
 
 export {
   isAdmin,
