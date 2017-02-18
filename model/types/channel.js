@@ -59,7 +59,8 @@ const readSchema = {
     },
     total_videos: {
       type: GraphQLInt,
-      description: descriptions.total_videos
+      description: descriptions.total_videos,
+      resolve: ({ total_videos }) => !total_videos ? 0 : total_videos
     },
     recent_videos: {
       type: new GraphQLList(video.read),

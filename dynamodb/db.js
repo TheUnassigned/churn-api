@@ -2,6 +2,9 @@
  * Dynamodb interface implementation
  */
 import expressionBuilder from './expression_builder'
+import debugCreator from 'debug'
+
+const debug = debugCreator('churnapi:db')
 
 /**
  * The document client used to interface with the database
@@ -36,6 +39,7 @@ const getResource = (params) => {
  * The params given match graphql's param object layout and context
  */
 const putResource = (params) => {
+  debug(params)
   return docClient.put(params).promise()
 }
 
@@ -45,7 +49,7 @@ const putResource = (params) => {
  */
 const updateResource = (params, context) => {
   const expression = expressionBuilder(params)
-  //console.log(expression)
+  debug(expression)
   return docClient.update(expression).promise()
 }
 

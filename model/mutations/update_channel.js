@@ -1,6 +1,7 @@
 import { or } from 'twobyfour'
 import channelType from '/model/types/channel'
 import { isAdmin, isChannelAdmin } from '/model/permissions'
+import { flatten } from '/dynamodb/expression_builder'
 
 export default {
   name: 'updateChannel',
@@ -21,7 +22,7 @@ export default {
       TableName: channelType.table,
       Key: { slug },
       ConditionExpression: 'attribute_exists(slug)',
-      SET: channel,
+      SET: flatten(channel),
       ReturnValues: 'ALL_NEW'
     }).then(result => result.Attributes)
       .catch(e => {

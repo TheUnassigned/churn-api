@@ -16,7 +16,8 @@ export default {
   resolve (root, { slug, channel }, { DB }) {
     const newChannel = {
       slug,
-      ...channel
+      ...channel,
+      recent_videos: []
     }
 
     return DB.putResource({

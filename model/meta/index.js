@@ -1,4 +1,6 @@
 import fetch from 'node-fetch'
+import { config } from '/config/environment'
+import util from 'util'
 
 /**
  * Given a youtube url, attempt to extract the youtube id
@@ -6,8 +8,9 @@ import fetch from 'node-fetch'
 const extractYoutubeId = url => {
 	const reg = /(?:http|https|)(?::\/\/|)(?:www.|)(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/ytscreeningroom\?v=|\/feeds\/api\/videos\/|\/user\S*[^\w\-\s]|\S*[^\w\-\s]))([\w\-]{11})[a-z0-9;:@?&%=+\/\$_.-]*/
 
-	return url.match(reg) ?
-		Promise.resolve(match[1]) :
+	const matches = url.match(reg)
+	return matches ?
+		Promise.resolve(matches[1]) :
 		Promise.reject(new Error('Churn currently only supports valid youtube video additions'))
 }
 
@@ -15,7 +18,7 @@ const extractYoutubeId = url => {
  * Given a youtube id, retrieve the relevant video youtube api data
  */
 const fetchYoutubeData = id => {
-	const url = `https://www.googleapis.com/youtube/v3/videos?id=${id}&part=snippet,contentDetails&key=${Env.youtube.serverKey}`
+	const url = `https://www.googleapis.com/youtube/v3/videos?id=${id}&part=snippet,contentDetails&key=${config.YOUTUBE_SERVER_KEY}`
 	return fetch(url).then(res => res.json())
 }
 
@@ -40,18 +43,14 @@ const parseISO8601Duration = iso8601Duration => {
 }
 
 export default url => {
-
   // extract the youtube id from the url
-  extractYoutubeId(url)
+  return extractYoutubeId(url)
     .then(fetchYoutubeData)
-    .then(({ items }) => {
+    .then(({ items, error }) => {
 
-      if(!items ||
-        items.length <= 0 ||
-        !items[0].snippet ||
-        !items[0].contentDetails) {
-        return new Error('Invalid data returned from youtube: ', items)
-      }
+			if(error){
+				return Promise.reject(new Error(util.inspect(error.errors)))
+			}
 
       const item = items[0]
       const durationObj = parseISO8601Duration(item.contentDetails.duration)

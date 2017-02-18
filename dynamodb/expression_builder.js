@@ -1,6 +1,9 @@
 /**
  * Module for making dynamodb expressions easier to build
  */
+import debugCreator from 'debug'
+
+const debug = debugCreator('churnapi:expressions')
 
 // character used to prepend the attribute variables
 const prechar = ':'
@@ -9,6 +12,7 @@ const prechar = ':'
 const paramKeys = ['TableName', 'Key', 'ConditionExpression', 'ReturnValues']
 
 // gets a mapping of all object leaves and their values
+/*
 const getLeaves = (obj, output = [], prefix = '') => {
   Object.keys(obj).forEach(k => {
     const val = obj[k]
@@ -22,16 +26,42 @@ const getLeaves = (obj, output = [], prefix = '') => {
   return output
 }
 
+const compileExpressions = (name, items, expressions, values, expFunc) => {
+  const updateName = expAliases[name] || name
+  if(!expressions[updateName]){
+    expressions[updateName] = []
+  }
+  expressions[updateName].push(getLeaves(items).map(({ key, value }, i) => {
+    // create a unique dynamo friendly attribute key
+    const valueKey = prechar + name + i
+    values[valueKey] = value
+    return expFunc(key, valueKey)
+  }).join(', '))
+}*/
+
+const compileExpressions = (name, items, expressions, values, expFunc) => {
+  const updateName = expAliases[name] || name
+  if(!expressions[updateName]){
+    expressions[updateName] = []
+  }
+  expressions[updateName].push(Object.keys(items).map((key, i) => {
+    const valueKey = prechar + name + i
+    values[valueKey] = items[key]
+    return expFunc(key, valueKey)
+  }).join(', '))
+}
+
 // list of conversion logic for dynamo expression keys
 const expFuncs = {
-  SET: (items, expressions, values) => {
-    expressions.push('SET ' + getLeaves(items).map(({ key, value }, i) => {
-      // create a unique dynamo friendly attribute key
-      const attrKey = prechar + 'SET' + i
-      values[attrKey] = value
-      return `${key}=${attrKey}`
-    }).join(', '))
-  }
+  SET: (key, valueKey) => `${key}=${valueKey}`,
+  ADD: (key, valueKey) => `${key} ${valueKey}`,
+  LIST_FRONT: (key, valueKey) => `${key}=list_append(${valueKey}, if_not_exists(${key}, :empty_list))`,
+  LIST_REMOVE: (key, valueKey) => `${key}`
+}
+
+const expAliases = {
+  LIST_FRONT: 'SET',
+  LIST_REMOVE: 'REMOVE'
 }
 
 export default params => {
@@ -41,14 +71,42 @@ export default params => {
   paramKeys.forEach(k => { if(params[k]){ output[k] = params[k] } })
 
   // build the update expression
-  const expressions = [], values = {}
+  const expressions = {}, values = {}
   Object.keys(expFuncs).forEach(k => {
-    if(params[k]){ expFuncs[k](params[k], expressions, values) }
+    if(params[k]){
+      compileExpressions(k, params[k], expressions, values, expFuncs[k])
+    }
   })
 
-  // set the final parts of the param object
-  output.UpdateExpression = expressions.join(' ')
+  // add common values used with the custom types
+  if(params.LIST_FRONT){
+    values[':empty_list'] = []
+  }
+
+  // finally compile the expressions into their appropriate strings/values
+  output.UpdateExpression = Object.keys(expressions).map(exps => {
+    return `${exps} ${expressions[exps].join(', ')}`
+  }).join(' ')
   output.ExpressionAttributeValues = values
 
+  debug(output)
   return output
+}
+
+// Helper function for flattening objects into key value top level pairs
+const flatten = (obj, output = {}, prefix = '') => {
+  Object.keys(obj).forEach(k => {
+    const val = obj[k]
+    const newPrefix = prefix.length > 0 ? prefix + '.' + k : k
+    if(val !== null && typeof val === 'object'){
+      flatten(obj[k], output, newPrefix)
+    }else{
+      output[newPrefix] = val
+    }
+  })
+  return output
+}
+
+export {
+  flatten
 }

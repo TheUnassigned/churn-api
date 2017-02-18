@@ -13,7 +13,7 @@ chai.should()
 const expect = chai.expect
 
 // wait until the mocks have initialised before running any tests
-beforeEach(() => mock)
+before(() => mock)
 
 // init the database client
 DB.setDoc(new AWS.DynamoDB.DocumentClient({ region: config.AWS_REGION }))
@@ -44,6 +44,7 @@ describe('Testing channel creation', () => {
           weburl
           instagram
         }
+        total_videos
       }
     }
   `
@@ -58,7 +59,8 @@ describe('Testing channel creation', () => {
           external_links: {
             weburl: 'http://www.thingo.com',
             instagram: null
-          }
+          },
+          total_videos: 0
         })
       }).should.be.fulfilled
   })
@@ -76,4 +78,5 @@ describe('Testing channel creation', () => {
         if(errors){ return Promise.reject(errors) }
       }).should.be.rejected
   })
+
 })
