@@ -11,34 +11,6 @@ const prechar = ':'
 // param keys automatically brought across
 const paramKeys = ['TableName', 'Key', 'ConditionExpression', 'ReturnValues']
 
-// gets a mapping of all object leaves and their values
-/*
-const getLeaves = (obj, output = [], prefix = '') => {
-  Object.keys(obj).forEach(k => {
-    const val = obj[k]
-    const newPrefix = prefix.length > 0 ? prefix + '.' + k : k
-    if(val !== null && typeof val === 'object'){
-      getLeaves(obj[k], output, newPrefix)
-    }else{
-      output.push({ key: newPrefix, value: val })
-    }
-  })
-  return output
-}
-
-const compileExpressions = (name, items, expressions, values, expFunc) => {
-  const updateName = expAliases[name] || name
-  if(!expressions[updateName]){
-    expressions[updateName] = []
-  }
-  expressions[updateName].push(getLeaves(items).map(({ key, value }, i) => {
-    // create a unique dynamo friendly attribute key
-    const valueKey = prechar + name + i
-    values[valueKey] = value
-    return expFunc(key, valueKey)
-  }).join(', '))
-}*/
-
 const compileExpressions = (name, items, expressions, values, expFunc) => {
   const updateName = expAliases[name] || name
   if(!expressions[updateName]){

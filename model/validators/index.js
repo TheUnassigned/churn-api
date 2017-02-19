@@ -49,7 +49,7 @@ const isAlphanumeric = locale => argTransform((key, val) => {
  **/
 const isURL = options => argTransform((key, val) => {
   if(!_isURL(val, options)){
-    return errReject(key, str, 'String must be a valid URL.')
+    return errReject(key, val, 'String must be a valid URL.')
   }
 })
 
@@ -58,10 +58,20 @@ const isURL = options => argTransform((key, val) => {
  */
 const isSlug = matches(/^[\w\d]+(?:-[\w\d]+)*$/)
 
+/**
+ * check if number is in a particular range
+ */
+const range = (min, max) => argTransform((key, val) => {
+  if(val < min || val > max) {
+    return errReject(key, val, `Value must be in the inclusive range of ${min}-${max}`)
+  }
+})
+
 export {
   isLength,
   matches,
   isAlphanumeric,
   isURL,
-  isSlug
+  isSlug,
+  range
 }

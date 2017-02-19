@@ -4,13 +4,14 @@ import {
   GraphQLBoolean
 } from 'graphql'
 import twobyfour from '/config/twobyfour'
+import videoCursorType from './video_cursor'
 
 const readSchema = {
   name: 'pageInfo',
   description: 'a common page information type for providing full list pagination details',
   fields: {
     next_page_cursor: {
-      type: GraphQLID,
+      type: videoCursorType.read,
       description: 'the cursor representing the first item in the next available page'
     },
     has_next_page: {

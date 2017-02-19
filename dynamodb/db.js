@@ -28,8 +28,10 @@ const clearCache = () => resourceCache = {}
  * Get a resource from the DB
  * The params provided match graphql's param object layout and context
  */
-const getResource = (params) => {
+const getResource = params => {
   return docClient.get(params).promise().then(result => {
+    debug(params)
+    debug(result)
     return result.Item ? result.Item : Promise.reject(new Error('(getResource): Resource could not be found'))
   })
 }
@@ -38,7 +40,7 @@ const getResource = (params) => {
  * Put a resource in the DB
  * The params given match graphql's param object layout and context
  */
-const putResource = (params) => {
+const putResource = params => {
   debug(params)
   return docClient.put(params).promise()
 }
@@ -47,7 +49,7 @@ const putResource = (params) => {
  * Update a resource in the DB
  * The params given match graphq's param object layout and context
  */
-const updateResource = (params, context) => {
+const updateResource = params => {
   const expression = expressionBuilder(params)
   debug(expression)
   return docClient.update(expression).promise()
@@ -56,8 +58,15 @@ const updateResource = (params, context) => {
 /**
  * Query a list from the DB
  */
-const query = (params) => {
+const query = params => {
   return docClient.query(params).promise()
+}
+
+/**
+ * Scan a list from the DB (full scan)
+ */
+const scan = params => {
+  return docClient.scan(params).promise()
 }
 
 /**
@@ -73,5 +82,7 @@ export default {
   getResource,
   putResource,
   updateResource,
+  query,
+  scan,
   deleteResource
 }

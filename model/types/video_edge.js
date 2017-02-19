@@ -12,11 +12,16 @@ const readSchema = {
     cursor: {
       type: GraphQLID,
       description: 'the generic cursor of the node used for pagination',
-      resolve: video => video.youtube_id
+      resolve: ({ channel_id, youtube_id, channel_position }) => ({
+        channel_id,
+        youtube_id,
+        channel_position
+      })
     },
     video: {
       type: videoType.read,
-      description: 'the member node'
+      description: 'the member node',
+      resolve: video => video
     }
   }
 }

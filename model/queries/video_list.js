@@ -3,11 +3,12 @@
  */
 import {
   GraphQLNonNull,
-  GraphQLInt,
-  GraphQLID
+  GraphQLInt
 } from 'graphql'
 import video from '/model/types/video'
 import cursorManager from '/model/types/cursor_manager'
+import videoCursorType from '/model/types/video_cursor'
+import { range  } from '/model/validators'
 
 export default {
   name: 'videoList',
@@ -16,10 +17,11 @@ export default {
   args: {
     first: {
       type: new GraphQLNonNull(GraphQLInt),
-      description: 'the maximum number of list items that should be returned'
+      description: 'the maximum number of list items that should be returned',
+      validators: range(1, 20)
     },
     cursor: {
-      type: GraphQLInt,
+      type: videoCursorType.input,
       description: 'the cursor id for where the current page should start from'
     }
   },
@@ -27,18 +29,38 @@ export default {
 
     const params = {
       TableName: video.table,
-      Key: {
-        channel_id: channel.slug
+      KeyConditionExpression: '#channel_id = :slug',
+      ExpressionAttributeNames:{
+        '#channel_id': 'channel_id'
       },
-      Limit: 20
+      ExpressionAttributeValues: {
+        ':slug': channel.slug
+      },
+      IndexName: 'videoPositionIndex',
+      ScanIndexForward: false,
+      Limit: first
     }
 
     if(cursor){
-      params.ExclusiveStartKey = {
-        channel_position: cursor
-      }
+      params.ExclusiveStartKey = cursor
     }
 
-    return DB.query(params)
+    return DB.query(params).then(result => {
+      const Items = result.Items
+      // set the page info details
+      const pageInfo = { has_next_page: false }
+      if(result.LastEvaluatedKey){
+        pageInfo.has_next_page = true
+        pageInfo.next_page_cursor = result.LastEvaluatedKey
+      }
+
+      // trime the last item off that we used to determine page info
+      const output = {
+        pageInfo,
+        edges: Items
+      }
+
+      return output
+    })
   }
 }

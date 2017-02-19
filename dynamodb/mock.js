@@ -35,11 +35,24 @@ const tableData = [
     TableName : 'churn-videos',
     KeySchema: [
       { AttributeName: 'channel_id', KeyType: 'HASH' },
-      { AttributeName: 'channel_position', KeyType: 'SORT' }
+      { AttributeName: 'youtube_id', KeyType: 'RANGE' }
+    ],
+    LocalSecondaryIndexes: [
+      {
+        IndexName: 'videoPositionIndex',
+        KeySchema: [
+          { AttributeName: 'channel_id', KeyType: 'HASH' },
+          { AttributeName: 'channel_position', KeyType: 'RANGE' }
+        ],
+        Projection: {
+          ProjectionType: 'ALL'
+        }
+      }
     ],
     AttributeDefinitions: [
       { AttributeName: 'channel_id', AttributeType: 'S' },
       { AttributeName: 'channel_position', AttributeType: 'N' },
+      { AttributeName: 'youtube_id', AttributeType: 'S' }
     ],
     ProvisionedThroughput: {
       ReadCapacityUnits: 1,
