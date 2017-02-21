@@ -1,32 +1,30 @@
+import webpack from 'webpack'
 
-import nodeExternals from 'webpack-node-externals'
-
-export default {
+const config = {
   target: 'node',
-  entry: './serverless/api',
-  context: __dirname,
+  entry: './serverless/api.js',
   output: {
     libraryTarget: 'commonjs',
-    path: './serverless',
+    path: 'serverless',
     filename: 'handler.js'
   },
-  // this allows us to import these filetypes without writing the extension
   resolve: {
-    root: [
-      __dirname
-    ],
-    extensions: ['', '.js', '.json']
+    modules: ['node_modules'],
+    extensions: ['.js', '.jsx', '.json']
   },
+  externals: ['aws-sdk'],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js?$/,
         exclude: /node_modules/,
-        loader: 'babel'
+        loader: 'babel-loader'
       }
     ]
   },
-  externals: [nodeExternals({
-    whitelist: name => name !== 'aws-sdk'
-  })]
+  plugins: [
+    new webpack.NormalModuleReplacementPlugin(/\/iconv-loader$/, 'node-noop')
+  ]
 }
+
+export default config

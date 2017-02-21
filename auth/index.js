@@ -5,10 +5,10 @@ import jwt from 'jsonwebtoken'
  * to verify and decode using provided secret
  */
 const getJWT = (authToken, secret) => {
-  if(!authToken){ return null }
+  if(!authToken){ return Promise.resolve() }
 
   const token = authToken.split(' ')
-  if(!token[0] === 'Bearer'){ return null }
+  if(!token[0] === 'Bearer'){ return Promise.resolve() }
 
   return new Promise((resolve, reject) => {
     jwt.verify(token[1], secret, (err, decoded) => {
