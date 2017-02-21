@@ -41,6 +41,6 @@ app.use('/graphql', bodyParser.json(), graphqlExpress(req => ({
 app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql',
   passHeader: config.GRAPHIQL_HEADER
-}));
+}))
 
-app.listen(3000, () => console.log('Churn API listening on port 3000'));
+app.listen(config.PORT, () => console.log(`Churn API listening on port ${config.PORT}`))

@@ -12,7 +12,9 @@ const api = (event, context, callback) => {
   // attempt to get jwt
   getJWT(event.authorizationToken, config.JWT_SECRET).then(viewer => {
     console.log(event)
-    const request = event.httpMethod === 'POST' ? event.body : event.query
+    const request = event.httpMethod === 'POST' ?
+      event.body :
+      event.queryStringParameters.query
 
     graphql(schema, request, {}, { DB, viewer }).then(result => {
       const response = {
