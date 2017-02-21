@@ -16,6 +16,12 @@ functions:
       - http:
           path: graphql
           method: get
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                query: true
       - http:
           path: graphql
           method: post
+          cors: true

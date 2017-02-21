@@ -1,20 +1,20 @@
 import { graphql } from 'graphql'
 import AWS from 'aws-sdk'
 import schema from '/model'
+import DB from '/dynamodb'
 import { getJWT } from '/auth'
 import { config } from '/config/environment'
 
-const DB = new AWS.DynamoDB.DocumentClient({ region: 'us-east-1' })
+DB.setDoc(new AWS.DynamoDB.DocumentClient({ region: config.AWS_REGION }))
 
 const api = (event, context, callback) => {
 
   // attempt to get jwt
   getJWT(event.authorizationToken, config.JWT_SECRET).then(viewer => {
-
-    // TODO: handle actual input params rather than static demo
     console.log(event)
+    const request = event.httpMethod === 'POST' ? event.body : event.query
 
-    graphql(schema, '{ hello }', { DB, viewer }).then(result => {
+    graphql(schema, request, {}, { DB, viewer }).then(result => {
       const response = {
         statusCode: 200,
         body: JSON.stringify(result)
