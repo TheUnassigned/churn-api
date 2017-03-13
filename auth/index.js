@@ -12,7 +12,8 @@ const getJWT = (authToken, secret) => {
 
   return new Promise((resolve, reject) => {
     jwt.verify(token[1], secret, (err, decoded) => {
-      if(err){ resolve() }
+      if(err){ return reject(err) }
+
       resolve(decoded)
     })
   })

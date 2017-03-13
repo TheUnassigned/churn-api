@@ -9,20 +9,48 @@ DB.setDoc(new AWS.DynamoDB.DocumentClient({ region: config.AWS_REGION }))
 
 const api = (event, context, callback) => {
 
-  // attempt to get jwt
-  getJWT(event.authorizationToken, config.JWT_SECRET).then(viewer => {
-    console.log(event)
-    const request = event.httpMethod === 'POST' ?
-      event.body :
-      event.queryStringParameters.query
+  // headers used to deal with cors
+  const headers = {
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+    'Access-Control-Allow-Origin' : event.headers.origin, // CORS :()
+    'Access-Control-Allow-Credentials' : true, // Required for cookies, authorization headers with HTTPS
+    'Access-Control-Allow-Headers': 'X-PINGOTHER, Content-Type, Authorization'
+  }
 
-    graphql(schema, request, {}, { DB, viewer }).then(result => {
+  // handle options preflight for posts
+  if(event.httpMethod === 'OPTIONS') {
+    const response = {
+      headers,
+      statusCode: 200,
+    }
+    return callback(null, response)
+  }
+
+  // attempt to get jwt
+  getJWT(event.headers.Authorization, config.JWT_SECRET).then(viewer => {
+    const request = event.httpMethod === 'POST' ?
+      JSON.parse(event.body) :
+      event.queryStringParameters
+
+    graphql(schema, request.query, {}, { DB, viewer }).then(result => {
+      console.log(result)
       const response = {
+        headers,
         statusCode: 200,
         body: JSON.stringify(result)
       }
       callback(null, response)
     })
+  }).catch(err => {
+    console.log(err)
+    const response = {
+      headers,
+      statusCode: 500,
+      body: JSON.stringify({
+        error: err
+      })
+    }
+    callback(null, response)
   })
 }
 
