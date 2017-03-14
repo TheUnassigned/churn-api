@@ -8,7 +8,6 @@ import {
 } from 'graphql'
 import pageInfo from './page_info'
 import videoEdge from './video_edge'
-import twobyfour from '/config/twobyfour'
 
 // build the schema
 const readSchema = {
@@ -28,5 +27,5 @@ const readSchema = {
 
 export default {
   readSchema,
-  read: twobyfour(GraphQLObjectType, readSchema)
+  read: new GraphQLObjectType(readSchema)
 }

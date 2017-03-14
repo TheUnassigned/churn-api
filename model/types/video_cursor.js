@@ -5,7 +5,6 @@ import {
   GraphQLInt,
   GraphQLNonNull
 } from 'graphql'
-import twobyfour from '/config/twobyfour'
 import videoType from './video'
 
 const { fields } = videoType.readSchema
@@ -42,6 +41,6 @@ const inputSchema = {
 export default {
   readSchema,
   inputSchema,
-  read: twobyfour(GraphQLObjectType, readSchema),
-  input: twobyfour(GraphQLInputObjectType, inputSchema)
+  read: new GraphQLObjectType(readSchema),
+  input: new GraphQLInputObjectType(inputSchema)
 }

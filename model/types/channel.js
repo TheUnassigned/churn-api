@@ -6,7 +6,6 @@ import {
   GraphQLList,
   GraphQLInt
 } from 'graphql'
-import twobyfour from '/config/twobyfour'
 import video from './video'
 import videoList from '/model/queries/video_list'
 import externalLinks from './external_links'
@@ -100,6 +99,6 @@ export default {
   keys,
   readSchema,
   inputSchema,
-  read: twobyfour(GraphQLObjectType, readSchema),
-  input: twobyfour(GraphQLInputObjectType, inputSchema)
+  read: new GraphQLObjectType(readSchema),
+  input: new GraphQLInputObjectType(inputSchema)
 }

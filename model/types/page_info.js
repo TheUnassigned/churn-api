@@ -3,7 +3,6 @@ import {
   GraphQLID,
   GraphQLBoolean
 } from 'graphql'
-import twobyfour from '/config/twobyfour'
 import videoCursorType from './video_cursor'
 
 const readSchema = {
@@ -23,5 +22,5 @@ const readSchema = {
 
 export default {
   readSchema,
-  read: twobyfour(GraphQLObjectType, readSchema)
+  read: new GraphQLObjectType(readSchema)
 }

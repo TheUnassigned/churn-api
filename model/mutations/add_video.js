@@ -1,4 +1,4 @@
-import twobyfour, { or } from '/config/twobyfour'
+import { or } from 'twobyfour'
 import { GraphQLNonNull, GraphQLString } from 'graphql'
 import videoType from '/model/types/video'
 import channelType from '/model/types/channel'

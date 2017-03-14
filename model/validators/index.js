@@ -14,7 +14,7 @@ const errReject = (key, str, msg) =>
   Promise.reject(new Error(`(${key}: ${str}) - ${msg}`))
 
 // convenience function for transforming resolve into arg resolve
-const argTransform = fn => (source, args, context, { arg }) =>
+const argTransform = fn => (root, args, context, { arg }) =>
   fn(arg, args[arg])
 
 /**

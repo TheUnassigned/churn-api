@@ -4,7 +4,6 @@ import {
   GraphQLString
 } from 'graphql'
 import { isURL } from '/model/validators'
-import twobyfour from '/config/twobyfour'
 
 const descriptions = {
   weburl: 'The URL related to the channel',
@@ -67,6 +66,6 @@ const inputSchema = {
 export default {
   readSchema,
   inputSchema,
-  read: twobyfour(GraphQLObjectType, readSchema),
-  input: twobyfour(GraphQLInputObjectType, inputSchema)
+  read: new GraphQLObjectType(readSchema),
+  input: new GraphQLInputObjectType(inputSchema)
 }

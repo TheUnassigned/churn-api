@@ -100,7 +100,6 @@ describe('Testing video list queries (no permissions necessary)', () => {
 
     return graphql(schema, cursorQuery, {}, { DB })
       .then(result => {
-        console.log(result)
         const edges = result.data.channel.videos.edges
         expect(edges).to.have.lengthOf(1)
         expect(edges[0].video).to.deep.equal({
@@ -115,7 +114,7 @@ describe('Testing video list queries (no permissions necessary)', () => {
     const firstCheckQuery = `
       query {
         channel(slug: "test-channel") {
-          videos(first: 21) {
+          videos(first: 31) {
             page_info {
               has_next_page
             }
@@ -125,8 +124,8 @@ describe('Testing video list queries (no permissions necessary)', () => {
     `
 
     return graphql(schema, firstCheckQuery, {}, { DB })
-      .then(({ errors }) => {
-        if(errors){ return Promise.reject(errors) }
+      .then(result => {
+        if(result.errors){ return Promise.reject(result.errors)}
       }).should.be.rejected
   })
 

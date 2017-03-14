@@ -92,7 +92,7 @@ describe('Testing channel updating', () => {
         updateChannel(slug: "shouldnotexist", channel: {
           title: "updated title"
           blurb: "nope"
-          logo_url: "nah"
+          logo_url: "http://nah.com/image.jpg"
         }){
           slug
         }

@@ -28,7 +28,7 @@
     "node-fetch": "^1.6.3",
     "node-noop": "^1.0.0",
     "standard": "^8.6.0",
-    "twobyfour": "0.0.10",
+    "twobyfour": "0.0.15",
     "validator": "^6.2.1"
   },
   "devDependencies": {

@@ -3,7 +3,6 @@ import {
   GraphQLID
 } from 'graphql'
 import videoType from './video'
-import twobyfour from '/config/twobyfour'
 
 const readSchema = {
   name: 'videoEdge',
@@ -28,5 +27,5 @@ const readSchema = {
 
 export default {
   readSchema,
-  read: twobyfour(GraphQLObjectType, readSchema)
+  read: new GraphQLObjectType(readSchema)
 }

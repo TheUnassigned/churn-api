@@ -4,7 +4,6 @@ import {
   GraphQLInt
 } from 'graphql'
 import { GraphQLDateTime } from '/graphql/custom_types'
-import twobyfour from '/config/twobyfour'
 
 const table = 'churn-videos'
 
@@ -45,5 +44,5 @@ const readSchema = {
 export default {
   table,
   readSchema,
-  read: twobyfour(GraphQLObjectType, readSchema)
+  read: new GraphQLObjectType(readSchema)
 }

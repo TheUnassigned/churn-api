@@ -18,7 +18,7 @@ export default {
     first: {
       type: new GraphQLNonNull(GraphQLInt),
       description: 'the maximum number of list items that should be returned',
-      validators: range(1, 20)
+      validators: range(1, 30)
     },
     cursor: {
       type: videoCursorType.input,
