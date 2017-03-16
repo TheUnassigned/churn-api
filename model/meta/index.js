@@ -52,7 +52,12 @@ export default url => {
 				return Promise.reject(new Error(util.inspect(error.errors)))
 			}
 
-      const item = items[0]
+			const item = items[0]
+
+			if(!item.contentDetails){
+				return Promise.reject(new Error('video found but unavailable from youtube'))
+			}
+
       const durationObj = parseISO8601Duration(item.contentDetails.duration)
       const duration = (parseInt(durationObj.hours) * 3600) +
                        (parseInt(durationObj.minutes) * 60) +

@@ -85,7 +85,7 @@ describe('Testing video additions', () => {
           duration: vid.duration
         })
       }).should.be.fulfilled
-  })
+  }).timeout(5000)
 
   it('should be able to add a second video and update position correctly', () => {
     const vid = sampleVideos[1]
@@ -100,7 +100,7 @@ describe('Testing video additions', () => {
           duration: vid.duration
         })
       }).should.be.fulfilled
-  })
+  }).timeout(5000)
 
   it('should be able to add more videos than those in the recent list (removal should work)', () => {
     const last = sampleVideos[5]
@@ -118,7 +118,7 @@ describe('Testing video additions', () => {
           duration: last.duration
         })
       }).should.be.fulfilled
-  })
+  }).timeout(5000)
 
   const readChannelRecent = `
     query {
