@@ -32,7 +32,7 @@ const api = (event, context, callback) => {
       JSON.parse(event.body) :
       event.queryStringParameters
 
-    graphql(schema, request.query, {}, { DB, viewer }).then(result => {
+    graphql(schema, request.query, {}, { DB, viewer }, request.variables).then(result => {
       console.log(result)
       const response = {
         headers,

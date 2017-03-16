@@ -33,7 +33,7 @@ const removeRecentTail = (slug, DB) => DB.updateResource({
   Key: { slug },
   ConditionExpression: 'attribute_exists(slug)',
   LIST_REMOVE: {
-    'recent_videos[5]': true
+    'recent_videos[5]': null
   },
   ReturnValues: 'ALL_NEW'
 }).then(({ Attributes }) => Attributes)

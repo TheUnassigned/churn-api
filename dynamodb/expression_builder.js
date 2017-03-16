@@ -18,7 +18,9 @@ const compileExpressions = (name, items, expressions, values, expFunc) => {
   }
   expressions[updateName].push(Object.keys(items).map((key, i) => {
     const valueKey = prechar + name + i
-    values[valueKey] = items[key]
+    if(items[key] != null){
+      values[valueKey] = items[key]
+    }
     return expFunc(key, valueKey)
   }).join(', '))
 }
@@ -59,7 +61,9 @@ export default params => {
   output.UpdateExpression = Object.keys(expressions).map(exps => {
     return `${exps} ${expressions[exps].join(', ')}`
   }).join(' ')
-  output.ExpressionAttributeValues = values
+  if(Object.keys(values).length > 0){
+    output.ExpressionAttributeValues = values
+  }  
 
   debug(output)
   return output

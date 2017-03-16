@@ -51,9 +51,9 @@ describe('Testing video additions', () => {
   // create the initial channel
   before(() => graphql(schema, mutation, {}, context))
 
-  const videoAddA = `
+  const videoAddA = youtubeId => `
     mutation {
-      addVideo(channel_slug: "addvideoslug", video_url: "https://www.youtube.com/watch?v=GDSqMG0rbKI"){
+      addVideo(channel_slug: "addvideoslug", video_url: "https://www.youtube.com/watch?v=${youtubeId}GDSqMG0rbKI"){
         channel_id
         channel_position
         youtube_id
@@ -63,30 +63,89 @@ describe('Testing video additions', () => {
     }
   `
 
+  const sampleVideos = [
+    { id: 'GDSqMG0rbKI', title: 'Valentines Day In Australia', duration: 119 },
+    { id: '8CxODDXpkcg', title: 'The Kid in Dubai with $1,000,000 in Shoes ...', duration: 771 },
+    { id: '3awG5wEE7LU', title: 'American Gods | Official Trailer | STARZ', duration: 83 },
+    { id: 'TFzy1l_WoAs', title: 'A Rabbi, a Priest and an Atheist Smoke Weed Together', duration: 485 },
+    { id: 'V-Cb9x70gYQ', title: 'Amtrak Snow-mo Collision', duration: 43 },
+    { id: 'QZ3JYLriWaE', title: 'VOICE FROM THE STONE - Official Trailer', duration: 152 },
+  ]
+
   it('should be able to add video to channel and update channel', () => {
-    return graphql(schema, videoAddA, {}, context)
+    const vid = sampleVideos[0]
+    return graphql(schema, videoAddA(vid.id), {}, context)
       .then(result => {
         const video = result.data.addVideo
         expect(video).to.deep.equal({
           channel_id: 'addvideoslug',
           channel_position: 1,
-          youtube_id: 'GDSqMG0rbKI',
-          title: 'Valentines Day In Australia',
-          duration: 119
+          youtube_id: vid.id,
+          title: vid.title,
+          duration: vid.duration
         })
       }).should.be.fulfilled
   })
 
   it('should be able to add a second video and update position correctly', () => {
-    return graphql(schema, videoAddA, {}, context)
+    const vid = sampleVideos[1]
+    return graphql(schema, videoAddA(vid.id), {}, context)
       .then(result => {
         const video = result.data.addVideo
         expect(video).to.deep.equal({
           channel_id: 'addvideoslug',
           channel_position: 2,
-          youtube_id: 'GDSqMG0rbKI',
-          title: 'Valentines Day In Australia',
-          duration: 119
+          youtube_id: vid.id,
+          title: vid.title,
+          duration: vid.duration
+        })
+      }).should.be.fulfilled
+  })
+
+  it('should be able to add more videos than those in the recent list (removal should work)', () => {
+    const last = sampleVideos[5]
+    return graphql(schema, videoAddA(sampleVideos[2].id), {}, context)
+      .then(() => graphql(schema, videoAddA(sampleVideos[3].id), {}, context))
+      .then(() => graphql(schema, videoAddA(sampleVideos[4].id), {}, context))
+      .then(() => graphql(schema, videoAddA(last.id), {}, context))
+      .then(result => {
+        const video = result.data.addVideo
+        expect(video).to.deep.equal({
+          channel_id: 'addvideoslug',
+          channel_position: 6,
+          youtube_id: last.id,
+          title: last.title,
+          duration: last.duration
+        })
+      }).should.be.fulfilled
+  })
+
+  const readChannelRecent = `
+    query {
+      channel(slug: "addvideoslug"){
+        slug
+        title
+        recent_videos {
+          youtube_id
+        }
+      }
+    }
+  `
+
+  it('should only now read 5 videos in the recent list (even though more have been added)', () => {
+    return graphql(schema, readChannelRecent, {}, context)
+      .then(result => {
+        const channel = result.data.channel
+        expect(channel).to.deep.equal({
+          slug: 'addvideoslug',
+          title: 'test title',
+          recent_videos: [
+            { youtube_id: sampleVideos[5].id },
+            { youtube_id: sampleVideos[4].id },
+            { youtube_id: sampleVideos[3].id },
+            { youtube_id: sampleVideos[2].id },
+            { youtube_id: sampleVideos[1].id },
+          ]
         })
       }).should.be.fulfilled
   })
