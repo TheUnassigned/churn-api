@@ -5,7 +5,7 @@ const config = {
   entry: './serverless/api.js',
   output: {
     libraryTarget: 'commonjs',
-    path: 'serverless',
+    path: __dirname + '/../serverless',
     filename: 'handler.js'
   },
   resolve: {

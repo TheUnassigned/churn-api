@@ -2,7 +2,7 @@
 service: churn-api
 provider:
   name: aws
-  runtime: nodejs4.3
+  runtime: nodejs6.10
   profile: churnapi
   iamRoleStatements:
     - Effect: Allow
